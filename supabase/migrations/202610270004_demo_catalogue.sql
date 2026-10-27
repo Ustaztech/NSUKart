@@ -62,6 +62,8 @@ begin
   if exists(select 1 from public.order_items oi join public.demo_catalogue d on d.product_id=oi.product_id) then
     raise exception 'Demo products referenced by orders cannot be deleted';
   end if;
+  delete from public.cart_items where product_id in(select product_id from public.demo_catalogue);
+  delete from public.wishlist where product_id in(select product_id from public.demo_catalogue);
   delete from public.products where id in(select product_id from public.demo_catalogue);
   get diagnostics n = row_count;
   delete from public.stores where id=demo_store;
