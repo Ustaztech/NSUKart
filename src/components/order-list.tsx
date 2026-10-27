@@ -48,7 +48,7 @@ export function OrderList({
             <strong>{money(v.subtotal_kobo)}</strong>
           </div>
           <ul className="order-items">
-            {v.order_items.map((i) => (
+            {(v.order_items ?? []).map((i) => (
               <li key={i.id}>
                 {i.title} × {i.quantity} — {money(i.unit_kobo * i.quantity)}
               </li>
@@ -88,8 +88,8 @@ export function OrderList({
             </div>
           )}
           <details>
-            <summary>Order messages ({v.messages.length})</summary>
-            {v.messages.map((m) => (
+            <summary>Order messages ({(v.messages ?? []).length})</summary>
+            {(v.messages ?? []).map((m) => (
               <p className="message" key={m.id}>
                 {m.body}
               </p>
