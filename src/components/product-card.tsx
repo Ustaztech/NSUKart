@@ -18,7 +18,7 @@ export function ProductCard({ product: p }: { product: Product }) {
         ) : (
           <ShoppingBag size={46} />
         )}
-        <span className="condition">{p.condition}</span>
+        <span className="condition">{p.stores?.slug === "nsukart-demo-store" ? "DEMO · NOT FOR SALE" : p.condition}</span>
       </Link>
       <div className="product-copy">
         <small>{p.category}</small>

@@ -10,6 +10,8 @@ import {
   moderateProduct,
   reviewWithdrawal,
   manageAccount,
+  createDemoCatalogue,
+  deleteDemoCatalogue,
 } from "@/app/actions";
 export default async function Admin({
   params,
@@ -30,6 +32,7 @@ export default async function Admin({
       "withdrawals",
       "audit",
       "users",
+      "demo",
     ].includes(section)
   )
     notFound();
@@ -94,6 +97,7 @@ export default async function Admin({
             withdrawals: "Withdrawal requests.",
             audit: "Audit trail.",
             users: "Community accounts.",
+            demo: "Manage demonstration listings.",
           }[section]
         }
       </h1>
@@ -128,6 +132,15 @@ export default async function Admin({
             payments and withdrawals need operator attention before settlement.
           </p>
         </>
+      )}
+      {section === "demo" && (
+        <div className="panel">
+          <h2>Sample campus marketplace listings</h2>
+          <p>Create eight clearly labelled demo products, each with zero stock and no real checkout availability. Use this to preview the storefront before genuine sellers publish products.</p>
+          <p>Demo items are illustrative only, not authentic offers. You can remove them later without affecting genuine products or stores.</p>
+          <form action={createDemoCatalogue}><Button>Create demo store and sample items</Button></form>
+          <form action={deleteDemoCatalogue} style={{ marginTop: "1rem" }}><Button variant="outline">Delete demo store and sample items</Button></form>
+        </div>
       )}
       {section === "vendors" &&
         (stores?.length ? (
