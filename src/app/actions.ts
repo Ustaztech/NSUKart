@@ -359,3 +359,20 @@ export async function readNotifications() {
   await client.rpc("mark_notifications_read");
   revalidatePath("/dashboard/notifications");
 }
+
+export async function createDemoCatalogue() {
+  const { client } = await requireUser("admin");
+  const { error } = await client.rpc("seed_demo_catalogue");
+  if (error) fail("/admin/demo", "Could not create demo listings: " + error.message);
+  revalidatePath("/");
+  revalidatePath("/marketplace");
+  redirect("/admin/demo");
+}
+export async function deleteDemoCatalogue() {
+  const { client } = await requireUser("admin");
+  const { error } = await client.rpc("clear_demo_catalogue");
+  if (error) fail("/admin/demo", "Could not remove demo listings: " + error.message);
+  revalidatePath("/");
+  revalidatePath("/marketplace");
+  redirect("/admin/demo");
+}
