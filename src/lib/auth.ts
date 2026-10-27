@@ -14,7 +14,8 @@ export async function requireUser(role?: "vendor" | "admin") {
     .select("*")
     .eq("id", user.id)
     .single();
-  if (error || !profile || profile.suspended) redirect("/account/unavailable");
+  if (error || !profile) redirect("/account/unavailable?reason=profile");
+  if (profile.suspended) redirect("/account/unavailable?reason=suspended");
   if (role && profile.role !== role && profile.role !== "admin")
     redirect("/dashboard");
   if (role === "admin") {

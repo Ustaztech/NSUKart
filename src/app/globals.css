@@ -1521,3 +1521,19 @@ td {
     animation: none !important;
   }
 }
+
+
+.theme-toggle {border:1px solid var(--line);border-radius:50%;background:var(--background);color:var(--ink);width:40px;height:40px;display:grid;place-items:center}
+html[data-theme="dark"] {color-scheme:dark;--green:#46c69a;--deep:#0b261e;--ink:#edf8f1;--muted:#bdcec4;--line:#39574a;--background:#101d19;--primary:#46c69a;--primary-foreground:#09251a}
+html[data-theme="dark"] .header,html[data-theme="dark"] .product-card,html[data-theme="dark"] .panel,html[data-theme="dark"] .footer,html[data-theme="dark"] .floating-label,html[data-theme="dark"] .btn-outline {background:#182a23;color:var(--ink)}
+html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea,html[data-theme="dark"] .search {background:#23392f;color:#edf8f1;border-color:#426251}
+html[data-theme="dark"] .empty-state,html[data-theme="dark"] .trust-strip,html[data-theme="dark"] .stat {background:#20332a;color:var(--ink)}
+html[data-theme="dark"] .notice {background:#264738;color:#e2f7e8;border-color:#385e46}
+html[data-theme="dark"] .category-card {color:#172e27}
+html[data-theme="dark"] .brand:not(.brand-light) {color:var(--green)}
+@media(max-width:640px){.theme-toggle {width:36px;height:36px}}
+.loading-skeleton {background:linear-gradient(100deg,var(--line) 15%,var(--background) 40%,var(--line) 65%);background-size:200% 100%;animation:loading-shimmer 1.5s linear infinite;border-radius:12px}
+@keyframes loading-shimmer {to{background-position-x:-200%}}
+@media(prefers-reduced-motion:reduce){.loading-skeleton{animation:none}}
+
+.theme-sun{display:none}html[data-theme="dark"] .theme-moon{display:none}html[data-theme="dark"] .theme-sun{display:block}

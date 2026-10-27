@@ -9,6 +9,7 @@ import {
   Package,
 } from "lucide-react";
 import { Brand } from "./brand";
+import { ThemeToggle } from "./theme-toggle";
 export function Header() {
   return (
     <>
@@ -26,6 +27,7 @@ export function Header() {
               <Search size={18} />
             </button>
           </form>
+          <ThemeToggle />
           <nav className="header-nav" aria-label="Main navigation">
             <Link href="/stores">Stores</Link>
             <Link href="/vendor/apply">Start selling</Link>
