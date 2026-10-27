@@ -43,7 +43,8 @@ export async function GET(request: NextRequest) {
       { error: "Reservation expiry failed" },
       { status: 500 },
     );
-  if (process.env.RESEND_API_KEY && process.env.EMAIL_FROM) {
+  if (process.env.RESEND_API_KEY) {
+    const emailFrom = process.env.EMAIL_FROM || "NSUKart <onboarding@resend.dev>";
     const { data: jobs, error } = await client.rpc("claim_email_jobs");
     if (error)
       return NextResponse.json(
@@ -60,7 +61,7 @@ export async function GET(request: NextRequest) {
         if (authError || !user?.email) throw new Error("Recipient unavailable");
         const result = await resend.emails.send(
           {
-            from: process.env.EMAIL_FROM,
+            from: emailFrom,
             to: user.email,
             subject: job.subject,
             text: `${job.body}\n\nYour Campus. Your Marketplace.\nNSUKart`,
