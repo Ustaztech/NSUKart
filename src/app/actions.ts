@@ -24,7 +24,7 @@ export async function login(form: FormData) {
   const client = await db();
   const { error } = await client.auth.signInWithPassword(input.data);
   if (error)
-    fail("/login", "Sign-in failed. Check your details and verify your email.");
+    fail("/login", "Sign-in failed. Check your email and password.");
   redirect("/dashboard");
 }
 export async function signup(form: FormData) {
@@ -47,7 +47,11 @@ export async function signup(form: FormData) {
       "/signup",
       "Unable to create your account. Check your details or try signing in.",
     );
-  redirect("/login?message=Check+your+email+to+confirm+your+account.");
+  // With Supabase email confirmation disabled, signup creates a session immediately.
+  // Keep password reset and recovery emails enabled in Supabase Auth.
+  const { data: created, error: signupError } = await client.auth.signInWithPassword({ email, password });
+  if (!signupError && created.user) redirect("/dashboard");
+  redirect("/login?message=Account+created.+Sign+in+to+continue.");
 }
 export async function logout() {
   const client = await db();
