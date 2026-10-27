@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { brandedEmail } from "@/lib/email-template";
 import { adminDb } from "@/lib/supabase/admin";
 import { validCron } from "@/lib/security";
 import { verifyPayment } from "@/lib/paystack";
@@ -64,6 +65,7 @@ export async function GET(request: NextRequest) {
             from: emailFrom,
             to: user.email,
             subject: job.subject,
+            html: brandedEmail(job.subject, job.body),
             text: `${job.body}\n\nYour Campus. Your Marketplace.\nNSUKart`,
           },
           { idempotencyKey: `email/${job.id}` },
