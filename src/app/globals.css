@@ -1535,3 +1535,5 @@ html[data-theme="dark"] .brand:not(.brand-light) {color:var(--green)}
 .loading-skeleton {background:linear-gradient(100deg,var(--line) 15%,var(--background) 40%,var(--line) 65%);background-size:200% 100%;animation:loading-shimmer 1.5s linear infinite;border-radius:12px}
 @keyframes loading-shimmer {to{background-position-x:-200%}}
 @media(prefers-reduced-motion:reduce){.loading-skeleton{animation:none}}
+
+.theme-sun{display:none}html[data-theme="dark"] .theme-moon{display:none}html[data-theme="dark"] .theme-sun{display:block}
