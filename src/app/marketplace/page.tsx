@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Header, Footer } from "@/components/header";
 import { ProductCard } from "@/components/product-card";
 import { Button } from "@/components/ui/button";
@@ -6,10 +7,21 @@ export const dynamic = "force-dynamic";
 export default async function Marketplace({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; category?: string; sort?: string }>;
+  searchParams: Promise<{ q?: string; category?: string; sort?: string; page?: string }>;
 }) {
   const params = await searchParams;
-  const { products, error } = await catalog(params);
+  const { products, error, ...pagination } = await catalog({ ...params, page: params.page ?? "1" });
+  const page = pagination.page ?? 1;
+  const totalPages = pagination.totalPages ?? 0;
+  const total = pagination.total ?? 0;
+  function pageHref(target: number) {
+    const query = new URLSearchParams();
+    if (params.q) query.set("q", params.q);
+    if (params.category) query.set("category", params.category);
+    if (params.sort && params.sort !== "newest") query.set("sort", params.sort);
+    query.set("page", String(target));
+    return `/marketplace?${query.toString()}`;
+  }
   return (
     <>
       <Header />
@@ -49,6 +61,9 @@ export default async function Marketplace({
           </label>
           <Button>Apply filters</Button>
         </form>
+        {!error && total > 0 && (
+          <p className="muted" aria-live="polite">{total} listing{total === 1 ? "" : "s"} found · Page {page} of {totalPages}</p>
+        )}
         {error ? (
           <p role="alert" className="notice error">
             {error}
@@ -67,6 +82,13 @@ export default async function Marketplace({
               products.
             </p>
           </div>
+        )}
+        {!error && totalPages > 1 && (
+          <nav aria-label="Marketplace pages" className="pagination" style={{ display: "flex", gap: "1rem", alignItems: "center", justifyContent: "center", marginTop: "2rem" }}>
+            {page > 1 && <Link href={pageHref(page - 1)}>← Previous</Link>}
+            <span>Page {page} of {totalPages}</span>
+            {page < totalPages && <Link href={pageHref(page + 1)}>Next →</Link>}
+          </nav>
         )}
       </main>
       <Footer />
