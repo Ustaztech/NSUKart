@@ -1,12 +1,12 @@
 import "server-only";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { required } from "@/lib/config";
+import { required, supabaseAnonKey, supabaseUrl } from "@/lib/config";
 export async function db() {
   const jar = await cookies();
   return createServerClient(
-    required("NEXT_PUBLIC_SUPABASE_URL"),
-    required("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
+    supabaseUrl() || required("NEXT_PUBLIC_SUPABASE_URL"),
+    supabaseAnonKey() || required("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
     {
       cookies: {
         getAll: () => jar.getAll(),
