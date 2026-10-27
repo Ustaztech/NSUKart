@@ -75,20 +75,35 @@ export default async function Dashboard({
         <>
           <p>Good finds and campus connections, all in one place.</p>
           <div className="stats-grid">
-            <div className="stat">
+            <div className="stat stat-primary">
               <small>Paid orders</small>
               <strong>{paidIds.size}</strong>
+              <Link href="/dashboard/orders">View order history →</Link>
             </div>
             <div className="stat">
               <small>Saved items</small>
               <strong>{saved?.length ?? 0}</strong>
+              <Link href="/dashboard/wishlist">Browse saved finds →</Link>
             </div>
             <div className="stat">
               <small>Completed pickups</small>
               <strong>
                 {rows.filter((v) => v.status === "completed").length}
               </strong>
+              <span className="muted">Keep shopping locally</span>
             </div>
+          </div>
+          <div className="dashboard-actions">
+            <Link className="action-card" href="/marketplace">
+              <strong>Find your next thing</strong>
+              <span>Explore textbooks, services and campus essentials.</span>
+              <b>Browse marketplace →</b>
+            </Link>
+            <Link className="action-card action-card-gold" href="/vendor/apply">
+              <strong>Have something to sell?</strong>
+              <span>Open a store and reach buyers around campus.</span>
+              <b>Start selling →</b>
+            </Link>
           </div>
           {profile.role === "vendor" && (
             <p className="notice">
