@@ -50,15 +50,15 @@ export default async function Dashboard({
   const paidIds = new Set<string>(
     (orders ?? []).filter((o) => o.payment_status === "paid").map((o) => o.id),
   );
-  const rows = (orders ?? []).flatMap(
-    (o) => o.vendor_orders,
-  ) as unknown as OrderRow[];
+  const rows = (orders ?? []).flatMap((o) =>
+    Array.isArray(o.vendor_orders) ? o.vendor_orders.filter(Boolean) : [],
+  ) as OrderRow[];
   return (
     <DashboardShell>
       <span className="eyebrow">YOUR CAMPUS CORNER</span>
       <h1>
         {section === "overview"
-          ? `Welcome back, ${profile.full_name.split(" ")[0] || "friend"}.`
+          ? `Welcome back, ${(profile.full_name ?? "").split(" ")[0] || "friend"}.`
           : {
               orders: "My orders.",
               wishlist: "Your saved finds.",
