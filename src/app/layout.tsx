@@ -16,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en-NG">
       <body>
+        <script dangerouslySetInnerHTML={{__html: `try{document.documentElement.dataset.theme=localStorage.getItem("nsukart-theme")==="dark"?"dark":"light"}catch{document.documentElement.dataset.theme="light"}`}} />
         <a href="#main" className="skip-link">
           Skip to content
         </a>
