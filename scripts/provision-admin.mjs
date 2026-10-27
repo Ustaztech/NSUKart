@@ -24,10 +24,9 @@ for (let page = 1; page <= 100; page++) {
 }
 if (!found)
   throw new Error(
-    "Create and verify the account through normal sign-up first.",
+    "Create the account through normal sign-up first.",
   );
-if (!found.email_confirmed_at)
-  throw new Error("Verify the account email first.");
+
 const { error } = await db
   .from("profiles")
   .update({ role: "admin" })
