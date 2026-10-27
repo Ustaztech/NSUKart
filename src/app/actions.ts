@@ -37,7 +37,7 @@ export async function signup(form: FormData) {
     );
   const { email, password, ...data } = input.data;
   const client = await db();
-  const { error } = await client.auth.signUp({
+  const { data: registration, error } = await client.auth.signUp({
     email,
     password,
     options: { data, emailRedirectTo: `${appUrl()}/auth/callback` },
@@ -49,8 +49,7 @@ export async function signup(form: FormData) {
     );
   // With Supabase email confirmation disabled, signup creates a session immediately.
   // Keep password reset and recovery emails enabled in Supabase Auth.
-  const { data: created, error: signupError } = await client.auth.signInWithPassword({ email, password });
-  if (!signupError && created.user) redirect("/dashboard");
+  if (registration.session) redirect("/dashboard");
   redirect("/login?message=Account+created.+Sign+in+to+continue.");
 }
 export async function logout() {
